@@ -24,6 +24,10 @@ def make_prediction(text):
 model = load_model()
 tokenizer = load_tokenizer()
 
+# sidebar
+st.sidebar.header("Parameters")
+threshold = st.sidebar.slider('Threshold', 0.0, 1.0, 0.5)
+
 # Main Page
 st.title('Spam Detection Using RNN')
 st.write("""
@@ -38,9 +42,10 @@ text = st.text_area('Text to analyze', "", height=5)
 st.subheader('Prediction')
 try:
 	pred = make_prediction(text)
-	if pred == 0:
+	if pred < threshold:
 		st.write('Not a spam')
 	else:
 		st.write('Spam detected!!')
+	st.write(f'Score: {pred}')
 except:
 	st.write('Please input text')
